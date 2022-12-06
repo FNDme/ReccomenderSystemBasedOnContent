@@ -237,6 +237,16 @@ function buildMatrix(docs: string[], stopWords: string[], corpus: string[][]): [
   const matrix: number[][] = [];
   const allWords: string[] = [];
   const df: number[] = [];
+  // console.log(docs);
+  docs.forEach((doc) => {
+    matrix.push([]);
+    const words = doc.split(' ')
+      .map((word) => word.toLowerCase().trim())
+    words.forEach((word) => {
+      // docs[docs.indexOf(doc)] = corpus.in;
+    });
+  });
+  // console.log(docs);
   docs.forEach((doc) => {
     matrix.push([]);
     const words = doc.split(' ')
@@ -264,6 +274,7 @@ function buildMatrix(docs: string[], stopWords: string[], corpus: string[][]): [
       }
     });
   });
+  console.log(matrix);
   return [matrix, df];
 }
 
@@ -325,5 +336,60 @@ export function formatOutput(
   normalizedTfidf: number[][],
   cosineSimilarity: number[][],
 ): string {
-  return 'Function not created';
+  let output = '';
+  output += 'Matrix\n';
+  matrix.forEach((row) => {
+    row.forEach((item) => {
+      output += item + ' ';
+    });
+    output += '\n';
+  });
+  output += '\n\n';
+  output += 'Document Frequency\n';
+  df.forEach((item) => {
+    output += item + ' ';
+  });
+  output += '\n\n';
+  output += 'Term Frequency\n';
+  tf.forEach((row) => {
+    row.forEach((item) => {
+      output += item + ' ';
+    });
+    output += '\n';
+  });
+  output += '\n\n';
+  output += 'Inverse Document Frequency\n';
+  idf.forEach((item) => {
+    output += item + ' ';
+  });
+  output += '\n\n';
+  output += 'TF-IDF\n';
+  tfidf.forEach((row) => {
+    row.forEach((item) => {
+      output += item + ' ';
+    });
+    output += '\n';
+  });
+  output += '\n';
+  output += 'Vector Lengths\n';
+  vectorLengths.forEach((item) => {
+    output += item + ' ';
+  });
+  output += '\n\n';
+  output += 'Normalized TF-IDF\n';
+  normalizedTfidf.forEach((row) => {
+    row.forEach((item) => {
+      output += item + ' ';
+    });
+    output += '\n';
+  });
+  output += '\n\n';
+  output += 'Cosine Similarity\n';
+  cosineSimilarity.forEach((row) => {
+    row.forEach((item) => {
+      output += item + ' ';
+    });
+    output += '\n';
+  });
+  return output;
 }
