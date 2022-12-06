@@ -147,6 +147,7 @@ function readCorpus(input) {
 }
 (_d = document.getElementById('submit-btn')) === null || _d === void 0 ? void 0 : _d.addEventListener('click', function (event) {
     if (event.target instanceof HTMLButtonElement) {
+        console.log('start');
         const response = document.getElementById('response-block');
         const resultDiv = document.getElementById('solution');
         if (response instanceof HTMLDivElement) {
@@ -158,26 +159,31 @@ function readCorpus(input) {
             resultDiv.classList.remove('shown');
         }
         if (docs.length === 0) {
+            console.log('Error: doc not uploaded');
             if (response instanceof HTMLDivElement) {
                 response.innerHTML = 'Please upload a document';
                 response.classList.add('error');
             }
         }
         else if (stopWords.length === 0) {
+            console.log('Error: stop words not uploaded');
             if (response instanceof HTMLDivElement) {
                 response.innerHTML = 'Please upload a stop words file';
                 response.classList.add('error');
             }
         }
         else if (corpus.length === 0) {
+            console.log('Error: corpus not uploaded');
             if (response instanceof HTMLDivElement) {
                 response.innerHTML = 'Please upload a corpus file';
                 response.classList.add('error');
             }
         }
         else {
+            console.log('Files right');
             const downloadFile = solve(docs, stopWords, corpus);
             if (downloadFile) {
+                console.log('Download file');
                 const link = resultDiv.appendChild(document.createElement('a'));
                 const btn = link.appendChild(document.createElement('button'));
                 btn.setAttribute('class', 'button is-dark');
@@ -198,7 +204,7 @@ function readCorpus(input) {
     document.getElementsByClassName('popup')[0].classList.remove('shown');
     document.getElementsByClassName('popup')[0].classList.add('hidden');
 });
-export function buildMatrix(docs, stopWords, corpus) {
+function buildMatrix(docs, stopWords, corpus) {
     const matrix = [];
     const allWords = [];
     const df = [];
@@ -232,7 +238,7 @@ export function buildMatrix(docs, stopWords, corpus) {
     });
     return [matrix, df];
 }
-export function solve(docs, stopWords, corpus) {
+function solve(docs, stopWords, corpus) {
     const [matrix, df] = buildMatrix(docs, stopWords, corpus);
     const tf = [];
     const idf = [];
@@ -277,5 +283,8 @@ export function solve(docs, stopWords, corpus) {
             }
         }
     }
-    return [matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity];
+    return formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity);
+}
+export function formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity) {
+    return 'Function not created';
 }

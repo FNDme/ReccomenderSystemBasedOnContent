@@ -171,6 +171,7 @@ function readCorpus(input: HTMLInputElement):
 document.getElementById('submit-btn')?.addEventListener('click',
   function (event) {
     if (event.target instanceof HTMLButtonElement) {
+      console.log('start');
       const response = document.getElementById('response-block') as
         HTMLDivElement;
       const resultDiv = document.getElementById('solution') as HTMLDivElement;
@@ -183,25 +184,30 @@ document.getElementById('submit-btn')?.addEventListener('click',
         resultDiv.classList.remove('shown');
       }
       if (docs.length === 0) {
+        console.log('Error: doc not uploaded')
         if (response instanceof HTMLDivElement) {
           response.innerHTML = 'Please upload a document';
           response.classList.add('error');
         }
       } else if (stopWords.length === 0) {
+        console.log('Error: stop words not uploaded')
         if (response instanceof HTMLDivElement) {
           response.innerHTML = 'Please upload a stop words file';
           response.classList.add('error');
         }
       }
       else if (corpus.length === 0) {
+        console.log('Error: corpus not uploaded')
         if (response instanceof HTMLDivElement) {
           response.innerHTML = 'Please upload a corpus file';
           response.classList.add('error');
         }
       }
       else {
+        console.log('Files right');
         const downloadFile = solve(docs, stopWords, corpus);
         if (downloadFile) {
+          console.log('Download file')
           const link = resultDiv.appendChild(document.createElement('a'));
           const btn = link.appendChild(document.createElement('button'));
           btn.setAttribute('class', 'button is-dark');
@@ -227,7 +233,7 @@ document.getElementById('close-btn')?.addEventListener('click',
       document.getElementsByClassName('popup')[0].classList.add('hidden');
     });
 
-export function buildMatrix(docs: string[], stopWords: string[], corpus: string[][]): [number[][], number[]] {
+function buildMatrix(docs: string[], stopWords: string[], corpus: string[][]): [number[][], number[]] {
   const matrix: number[][] = [];
   const allWords: string[] = [];
   const df: number[] = [];
@@ -261,7 +267,7 @@ export function buildMatrix(docs: string[], stopWords: string[], corpus: string[
   return [matrix, df];
 }
 
-export function solve(docs: string[], stopWords: string[], corpus: string[][]): string {
+function solve(docs: string[], stopWords: string[], corpus: string[][]): string {
   const [matrix, df] = buildMatrix(docs, stopWords, corpus);
   const tf: number[][] = [];
   const idf: number[] = [];
@@ -319,5 +325,5 @@ export function formatOutput(
   normalizedTfidf: number[][],
   cosineSimilarity: number[][],
 ): string {
-  return '';
+  return 'Function not created';
 }
