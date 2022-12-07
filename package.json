@@ -12,6 +12,10 @@
   "dependencies": {
     "@types/node": "^18.11.10",
     "console-table-printer": "^2.11.1",
-    "fs": "^0.0.1-security"
+    "fs": "^0.0.1-security",
+    "text-table": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/text-table": "^0.2.2"
   }
 }

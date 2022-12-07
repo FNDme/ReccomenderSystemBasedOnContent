@@ -208,7 +208,6 @@ function buildMatrix(docs, stopWords, corpus) {
     const matrix = [];
     const allWords = [];
     const df = [];
-    console.log(docs);
     for (let i = 0; i < docs.length; i++) {
         for (const element of corpus) {
             const regex = new RegExp(element[0], 'gi');
@@ -219,7 +218,6 @@ function buildMatrix(docs, stopWords, corpus) {
             docs[i] = docs[i].replace(regex, element[1]);
         }
     }
-    console.log(docs);
     docs.forEach((doc) => {
         matrix.push([]);
         const words = doc.split(' ')
@@ -248,11 +246,10 @@ function buildMatrix(docs, stopWords, corpus) {
             }
         });
     });
-    console.log(matrix);
-    return [matrix, df];
+    return [matrix, df, allWords];
 }
 function solve(docs, stopWords, corpus) {
-    const [matrix, df] = buildMatrix(docs, stopWords, corpus);
+    const [matrix, df, allWords] = buildMatrix(docs, stopWords, corpus);
     const tf = [];
     const idf = [];
     const tfidf = [];
@@ -296,58 +293,25 @@ function solve(docs, stopWords, corpus) {
             }
         }
     }
-    return formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity);
+    // return formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity);
+    return printOutput(allWords, tf, idf, tfidf, cosineSimilarity);
 }
-export function formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity) {
+export function printOutput(allWords, tf, idf, tfidf, cosineSimilarity) {
     let output = '';
-    output += 'Matrix\n';
-    matrix.forEach((row) => {
-        row.forEach((item) => {
-            output += item + ' ';
-        });
-        output += '\n';
-    });
-    output += '\n\n';
-    output += 'Document Frequency\n';
-    df.forEach((item) => {
-        output += item + ' ';
-    });
-    output += '\n\n';
-    output += 'Term Frequency\n';
-    tf.forEach((row) => {
-        row.forEach((item) => {
-            output += item + ' ';
-        });
-        output += '\n';
-    });
-    output += '\n\n';
-    output += 'Inverse Document Frequency\n';
-    idf.forEach((item) => {
-        output += item + ' ';
-    });
-    output += '\n\n';
-    output += 'TF-IDF\n';
-    tfidf.forEach((row) => {
-        row.forEach((item) => {
-            output += item + ' ';
+    output += 'Índice\t\t\tTérmino\t\t\tTF\t\t\t\tIDF\t\t\t\tTF-IDF\n';
+    tfidf.forEach((row, i) => {
+        row.forEach((item, j) => {
+            if (allWords[j].length < 8)
+                output += `${j}\t\t\t${allWords[j]}\t\t\t${tf[i][j]}\t\t\t${idf[j]}\t\t\t${item}\n`;
+            else if (idf[j] === 0)
+                output += `${j}\t\t\t${allWords[j]}\t\t${tf[i][j]}\t\t\t${idf[j]}\t\t\t\t${item}\n`;
+            else
+                output += `${j}\t\t\t${allWords[j]}\t\t${tf[i][j]}\t\t\t${idf[j]}\t\t\t${item}\n`;
         });
         output += '\n';
     });
     output += '\n';
-    output += 'Vector Lengths\n';
-    vectorLengths.forEach((item) => {
-        output += item + ' ';
-    });
-    output += '\n\n';
-    output += 'Normalized TF-IDF\n';
-    normalizedTfidf.forEach((row) => {
-        row.forEach((item) => {
-            output += item + ' ';
-        });
-        output += '\n';
-    });
-    output += '\n\n';
-    output += 'Cosine Similarity\n';
+    output += 'Similitud coseno entre cada par de documentos\n';
     cosineSimilarity.forEach((row) => {
         row.forEach((item) => {
             output += item + ' ';
@@ -356,3 +320,24 @@ export function formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normaliz
     });
     return output;
 }
+// export function printOutput(
+//   allWords: string[],
+//   tf: number[][],
+//   idf: number[],
+//   tfidf: number[][],
+//   cosineSimilarity: number[][],
+// ): string {
+//   let t = [];
+//   t.push(['Índice del término', 'Término', 'TF', 'IDF', 'TF-IDF']);
+//   tfidf.forEach((row, i) => {
+//     row.forEach((item, j) => {
+//       t.push([j, allWords[j], tf[i][j], idf[j], item]);
+//     });
+//     t.push([]);
+//   });
+//   t.push(['Similitud coseno entre cada par de documentos']);
+//   cosineSimilarity.forEach((row) => {
+//     t.push(row);
+//   });
+//   return table(t);
+// }
