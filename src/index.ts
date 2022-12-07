@@ -354,33 +354,10 @@ export function printOutput(
   output += 'Similitud coseno entre cada par de documentos\n';
   cosineSimilarity.forEach((row) => {
     row.forEach((item) => {
-      output += item + ' ';
+      output += item + '\t';
     });
     output += '\n';
   }
   );
   return output;
 }
-
-// export function printOutput(
-//   allWords: string[],
-//   tf: number[][],
-//   idf: number[],
-//   tfidf: number[][],
-//   cosineSimilarity: number[][],
-// ): string {
-//   let t = [];
-//   t.push(['Índice del término', 'Término', 'TF', 'IDF', 'TF-IDF']);
-//   tfidf.forEach((row, i) => {
-//     row.forEach((item, j) => {
-//       t.push([j, allWords[j], tf[i][j], idf[j], item]);
-//     });
-//     t.push([]);
-//   });
-
-//   t.push(['Similitud coseno entre cada par de documentos']);
-//   cosineSimilarity.forEach((row) => {
-//     t.push(row);
-//   });
-//   return table(t);
-// }
