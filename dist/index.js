@@ -293,13 +293,13 @@ function solve(docs, stopWords, corpus) {
             }
         }
     }
-    // return formatOutput(matrix, df, tf, idf, tfidf, vectorLengths, normalizedTfidf, cosineSimilarity);
     return printOutput(allWords, tf, idf, tfidf, cosineSimilarity);
 }
 export function printOutput(allWords, tf, idf, tfidf, cosineSimilarity) {
     let output = '';
-    output += 'Índice\t\t\tTérmino\t\t\tTF\t\t\t\tIDF\t\t\t\tTF-IDF\n';
     tfidf.forEach((row, i) => {
+        output += `Doc[${i + 1}]\n`;
+        output += 'Índice\t\t\tTérmino\t\t\tTF\t\t\t\tIDF\t\t\t\tTF-IDF\n';
         row.forEach((item, j) => {
             if (allWords[j].length < 8)
                 output += `${j}\t\t\t${allWords[j]}\t\t\t${tf[i][j]}\t\t\t${idf[j]}\t\t\t${item}\n`;

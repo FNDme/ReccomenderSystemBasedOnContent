@@ -336,8 +336,9 @@ export function printOutput(
   cosineSimilarity: number[][],
 ): string {
   let output = '';
-  output += 'Índice\t\t\tTérmino\t\t\tTF\t\t\t\tIDF\t\t\t\tTF-IDF\n';
   tfidf.forEach((row, i) => {
+    output += `Doc[${i + 1}]\n`;
+    output += 'Índice\t\t\tTérmino\t\t\tTF\t\t\t\tIDF\t\t\t\tTF-IDF\n';
     row.forEach((item, j) => {
       if (allWords[j].length < 8)
         output += `${j}\t\t\t${allWords[j]}\t\t\t${tf[i][j]}\t\t\t${idf[j]}\t\t\t${item}\n`;
