@@ -237,16 +237,18 @@ function buildMatrix(docs: string[], stopWords: string[], corpus: string[][]): [
   const matrix: number[][] = [];
   const allWords: string[] = [];
   const df: number[] = [];
-  // console.log(docs);
-  docs.forEach((doc) => {
-    matrix.push([]);
-    const words = doc.split(' ')
-      .map((word) => word.toLowerCase().trim())
-    words.forEach((word) => {
-      // docs[docs.indexOf(doc)] = corpus.in;
-    });
-  });
-  // console.log(docs);
+  console.log(docs);
+  for (let i = 0; i < docs.length; i++) {
+    for (const element of corpus) {
+      const regex = new RegExp(element[0], 'gi');
+      docs[i] = docs[i].replace(regex, '');
+    }
+    for (const element of corpus) {
+      const regex = new RegExp(element[0], 'gi');
+      docs[i] = docs[i].replace(regex, element[1]);
+    }
+  }
+  console.log(docs);
   docs.forEach((doc) => {
     matrix.push([]);
     const words = doc.split(' ')
